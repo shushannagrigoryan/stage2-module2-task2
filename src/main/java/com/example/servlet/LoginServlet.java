@@ -16,23 +16,22 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException{
         HttpSession session = request.getSession();
-
-        //if(session.getAttribute("user") != null)
-        if(Users.getInstance().getUsers().contains(request.getParameter("login"))){
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/user/hello.jsp");
-            requestDispatcher.forward(request, response);
-        }
-        else{
+        if(session.getAttribute("user") == null){
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.jsp");
             requestDispatcher.forward(request, response);
         }
+        else{
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/user/hello.jsp");
+            requestDispatcher.forward(request, response);
+        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException{
         HttpSession session = request.getSession();
         Users.getInstance().getUsers();
-        if(Users.getInstance().getUsers().contains(request.getParameter("login")) && !request.getParameter("password").isEmpty()){
+        if(Users.getInstance().getUsers().contains(request.getParameter("login")) && request.getParameter("password") == null){
             //Check which user and session
             session.setAttribute("user", request.getParameter("login"));
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/user/hello.jsp");
