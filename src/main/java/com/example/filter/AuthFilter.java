@@ -17,8 +17,7 @@ public class AuthFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
         if(session.getAttribute("user") == null){
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/login.jsp");
-            requestDispatcher.forward(req, resp);
+            resp.sendRedirect("/login.jsp");
         }
 
 
